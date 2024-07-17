@@ -6,13 +6,17 @@
 void ABasePaperCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	HP = MaxHP;
 }
 
 void ABasePaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UpdateAnimation(); // јнимаци€ обновл€етс€ каждый тик
+	if (!bIsDead) {
+		UpdateAnimation(); // јнимаци€ обновл€етс€ каждый тик
+	}
 }
 
 EMovementStatus ABasePaperCharacter::GetMovementStatus()
@@ -31,4 +35,32 @@ EMovementStatus ABasePaperCharacter::GetMovementStatus()
 	else {
 		return EMovementStatus::VE_IDLE;				  // в состо€нии поко€
 	}
+}
+
+void ABasePaperCharacter::ChangeHP(float Points)
+{
+	HP += Points;
+
+	if (Points > 0.0) {
+		HP = (HP < MaxHP ? HP : MaxHP); // если хп стало больше максимума, то замен€ем
+	}
+	else {
+		HP = (HP >= 0.0 ? HP : 0.0);    // если хп стало меньше минимума, то замен€ем
+
+		WasDamaged();					// действи€ после получени€ урона
+
+		if (HP <= 0.0) {
+			Dead();						// действи€ после смерти
+		}
+	}
+}
+
+void ABasePaperCharacter::Dead_Implementation()
+{
+	bIsDead = true;
+}
+
+bool ABasePaperCharacter::IsDead()
+{
+	return bIsDead;
 }

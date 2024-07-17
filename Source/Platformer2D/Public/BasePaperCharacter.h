@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Engine/DamageEvents.h"
+#include "GameFramework/Actor.h"
 
 #include "BasePaperCharacter.generated.h"
 
@@ -36,7 +38,35 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateAnimation();
 
-	// Функция для определения текущего движения (вызывается в бп)
+	// Ивент вызываемый при получение урона
+	UFUNCTION(BlueprintImplementableEvent)
+	void WasDamaged();
+
+	// Функция для определения текущего движения 
 	UFUNCTION(BlueprintCallable)
 	EMovementStatus GetMovementStatus();
+
+	// Функция для изменения хп
+	UFUNCTION(BlueprintCallable)
+	void ChangeHP(float Points);
+
+	// Ивент вызываемый при смерти
+	UFUNCTION(BlueprintNativeEvent)
+	void Dead();
+	virtual void Dead_Implementation();
+
+	UFUNCTION(BlueprintCallable)
+	bool IsDead();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
+	float HP;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
+	float MaxHP;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
+	float Damage;
+
+private:
+	bool bIsDead = false;
 };
