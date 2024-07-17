@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/DamageEvents.h"
 #include "GameFramework/Actor.h"
+#include "Math/Rotator.h"
 
 #include "BasePaperCharacter.generated.h"
 
@@ -34,21 +35,13 @@ public:
 	// Вызывается каждый фрейм
 	virtual void Tick(float DeltaTime) override;
 
-	// Функция для смены анимации (реализуется в бп)
-	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateAnimation();
-
-	// Ивент вызываемый при получение урона
-	UFUNCTION(BlueprintImplementableEvent)
-	void WasDamaged();
-
 	// Функция для определения текущего движения 
 	UFUNCTION(BlueprintCallable)
 	EMovementStatus GetMovementStatus();
 
-	// Функция для изменения хп
-	UFUNCTION(BlueprintCallable)
-	void ChangeHP(float Points);
+	// Ивент вызываемый при получение урона
+	UFUNCTION(BlueprintImplementableEvent)
+	void WasDamaged();
 
 	// Ивент вызываемый при смерти
 	UFUNCTION(BlueprintNativeEvent)
@@ -57,6 +50,19 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool IsDead();
+
+protected:
+	// Функция для смены анимации (реализуется в бп)
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateAnimation();
+
+	//// Функция для движения 
+	//UFUNCTION(BlueprintCallable)
+	//void MoveForward(float Value);
+
+	// Функция для изменения хп
+	UFUNCTION(BlueprintCallable)
+	void ChangeHP(float Points);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
 	float HP;

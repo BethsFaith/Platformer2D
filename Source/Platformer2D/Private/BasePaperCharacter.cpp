@@ -19,6 +19,18 @@ void ABasePaperCharacter::Tick(float DeltaTime)
 	}
 }
 
+//void ABasePaperCharacter::MoveForward(float Value)
+//{
+//	AddMovementInput({1.0, 0.0, 0.0 }, Value);					  // Передвижение по X и умножение на значение Value (-1.0 или 1.0)
+//
+//	FRotator Rotator{ 0.0, 0.0, 0.0 };
+//	if (Value < 0.0) {
+//		Rotator = Rotator.Add(0.0, 0.0, 180.0);
+//	}
+//	
+//	GetController()->SetControlRotation(Rotator); 
+//}
+
 EMovementStatus ABasePaperCharacter::GetMovementStatus()
 {
 	auto velocity = GetVelocity();
