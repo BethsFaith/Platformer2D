@@ -26,6 +26,9 @@ public:
 	// Начало игры
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable)
+	void AddTreasure();
+
 	/* Свойства */
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -38,6 +41,8 @@ public:
 	UCameraComponent* Camera;
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
+	int Treasures;
 
 private:
 	APlayerController* PlayerController;
