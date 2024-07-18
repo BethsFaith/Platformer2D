@@ -39,9 +39,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	EMovementStatus GetMovementStatus();
 
-	// Ивент вызываемый при получение урона
-	UFUNCTION(BlueprintImplementableEvent)
-	void WasDamaged();
+	//// Ивент вызываемый при получение урона
+	//UFUNCTION(BlueprintImplementableEvent)
+	//void WasDamaged();
 
 	// Ивент вызываемый при смерти
 	UFUNCTION(BlueprintNativeEvent)
