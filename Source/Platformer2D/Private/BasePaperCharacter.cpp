@@ -59,8 +59,6 @@ void ABasePaperCharacter::ChangeHP(float Points)
 	else {
 		HP = (HP >= 0.0 ? HP : 0.0);    // если хп стало меньше минимума, то заменяем
 
-		WasDamaged();					// действия после получения урона
-
 		if (HP <= 0.0) {
 			Dead();						// действия после смерти
 		}
