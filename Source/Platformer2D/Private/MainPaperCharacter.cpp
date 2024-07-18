@@ -29,3 +29,8 @@ void AMainPaperCharacter::BeginPlay()
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
 }
+
+void AMainPaperCharacter::AddTreasure()
+{
+	++Treasures;
+}
