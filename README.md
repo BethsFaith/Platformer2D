@@ -4,17 +4,22 @@ Developed with Unreal Engine 5.4.1
 
 # Сборка
 
-Чтобы запустить из исходников, необходимо наличие Unreal Engine 5.4. Запуск Platformer2D.uproject (Или запуск UE5 -> обзор -> Platformer2D.uproject)
-При ошибках автоматической сборки - открыть .sln (Должна быть установлена Visual Studio), нажать правой кнопкой мыши на решение, далее - выбрать "пересобрать проект".
+* Чтобы запустить проект из исходников, необходимо наличие Unreal Engine 5.4 + Visual Studio. Запуск Platformer2D.uproject (Или запуск UE5 -> обзор -> Platformer2D.uproject)
+* Важно: использовать 'git clone https://github.com/BethsFaith/Platformer2D.git', не скачивание zip-архива. 
+* При появлении export-ошибок (после запуска .uproject): 
+    1. Открыть вкладку "инструменты" -> "Открыть Visual Studio"
+    2. В Visual Studio убедиться, что стоит сборка : Development Editor, Win64 + Unreal Build Tool. Нажать правой кнопкой мыши на "Решение" -> "Пересобрать решение".
+    3. Перезапутить UE5.
+    4. Если ошибки не исчезли: "Инструменты" -> "Обновить проект Visual Studio". Далее нажать кнопку компиляции с++ кода, дождаться её завершения и перезапустить UE5.  
 
 # Дополнительно
 
-Ассеты, используемые в этом проекте, находятся по ссылке: https://pixelfrog-assets.itch.io/treasure-hunters
+* Код в блюпринтах и на с++ содержит комментарии на русском языке. Если комментарии на с++ отображаются некорректно, убедитесь что включена кодировка Windows1251 (В VisualStudio по умолчанию).
 
-.exe файл (dev сборка) лежит на диске: https://drive.google.com/file/d/1niVBgnHSVIBXVZmMmOaT2UFTN7q4enRP/view?usp=drive_link
+* Ассеты, используемые в этом проекте: https://pixelfrog-assets.itch.io/treasure-hunters
+
+* .exe файл (dev сборка) : https://drive.google.com/file/d/1niVBgnHSVIBXVZmMmOaT2UFTN7q4enRP/view?usp=drive_link
 Запуск: Platformer2/Binaries/Win64/Platformer2.exe
-
-Код в блюпринтах и на с++ содержит комментарии на русском языке. (Если комментарии на с++ отображаются некорректно, убедитесь что включена кодировка Windows1251).
 
 # Управление
 
