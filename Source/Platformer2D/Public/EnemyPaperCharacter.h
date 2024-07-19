@@ -16,7 +16,7 @@ class PLATFORMER2D_API AEnemyPaperCharacter : public ABasePaperCharacter
 	
 public:
 	UFUNCTION(BlueprintCallable)
-	bool IsAgressive();
+	bool IsAggressive();
 
 protected:
 	/* Переопределение */
@@ -36,7 +36,7 @@ protected:
 	/* Свойства */
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
-	UPaperFlipbook* AgressiveMode;
+	UPaperFlipbook* AggressiveMode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AggressiveMode")
 	int WalkingMultiplier;

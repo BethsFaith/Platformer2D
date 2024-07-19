@@ -3,7 +3,7 @@
 
 #include "EnemyPaperCharacter.h"
 
-bool AEnemyPaperCharacter::IsAgressive()
+bool AEnemyPaperCharacter::IsAggressive()
 {
 	return bAggressive;
 }
@@ -35,7 +35,7 @@ void AEnemyPaperCharacter::TurnOneAggressiveMode(ABasePaperCharacter* Target)
 	bAggressive = true;
 
 	// меняем анимацию
-	PlayFlipbook(AgressiveMode, false);
+	PlayFlipbook(AggressiveMode, false);
 
 	// умножаем скорость на модификатор
 	auto MovementComponent = GetCharacterMovement();
