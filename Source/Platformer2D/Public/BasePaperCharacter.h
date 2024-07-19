@@ -49,13 +49,16 @@ public:
 	void Dead();
 	virtual void Dead_Implementation();
 
+	UFUNCTION()
+	void PlayDeathAnimation();
+
 	UFUNCTION(BlueprintCallable)
 	bool IsDead();
 
 protected:
 	// Функция для смены анимации
 	UFUNCTION(BlueprintCallable)
-	void UpdateMovementAnimation();
+	virtual void UpdateMovementAnimation();
 
 	FTimerHandle FlipbookPlayHandle;
 

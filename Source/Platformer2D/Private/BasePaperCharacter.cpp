@@ -14,8 +14,8 @@ void ABasePaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!bIsDead && bCanChangeAnimation) {
-		UpdateMovementAnimation(); // Анимация обновляется каждый тик
+	if (!bIsDead && bCanChangeAnimation) { // если персонаж не мертв и можно менять анимацию
+		UpdateMovementAnimation();		   // то анимация обновится в соответствии с движениями
 	}
 }
 
@@ -70,11 +70,11 @@ void ABasePaperCharacter::PlayFlipbook(UPaperFlipbook* Flipbook, bool PlayOneTim
 	if (Flipbook != nullptr) {
 		sprite->SetFlipbook(Flipbook);
 
-		if (PlayOneTime) {
-			bCanChangeAnimation = false;
+		if (PlayOneTime) {				   // если нужно проиграть один раз
+			bCanChangeAnimation = false;   // запрещаем смену анимации 
 
 			GetWorld()->GetTimerManager().SetTimer(FlipbookPlayHandle, this, 
-				&ABasePaperCharacter::PlayFlipbookFinished, Flipbook->GetTotalDuration(), false);
+				&ABasePaperCharacter::PlayFlipbookFinished, Flipbook->GetTotalDuration(), false); // ждем проигрывания анимации, после чего вызываем PlayFlipbookFinished()
 		}
 	}
 }
@@ -115,6 +115,17 @@ void ABasePaperCharacter::Dead_Implementation()
 {
 	bIsDead = true;
 
+	if (bCanChangeAnimation) { // если можно сменить анимацию
+		PlayDeathAnimation();  // меняем
+	}
+	else {
+		GetWorld()->GetTimerManager().SetTimer(FlipbookPlayHandle, this,
+			&ABasePaperCharacter::PlayDeathAnimation, DeadHit->GetTotalDuration(), false); // ждем проигрывания анимаций, чтобы включить death
+	}
+}
+
+void ABasePaperCharacter::PlayDeathAnimation()
+{
 	PlayFlipbook(Death, false);
 }
 
