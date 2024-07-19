@@ -42,7 +42,7 @@ Developed with Unreal Engine 5.4.1
 * x - атака;
 * a - передвижение влево;
 * d - передвижение вправо;
-* spacebar - прыжок;
+* spacebar - прыжок.
 
 # Игра 
 
