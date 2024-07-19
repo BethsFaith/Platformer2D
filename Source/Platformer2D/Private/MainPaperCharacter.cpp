@@ -12,9 +12,8 @@ AMainPaperCharacter::AMainPaperCharacter()
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 
 	auto Root = GetRootComponent(); 
-	SpringArm->SetupAttachment(Root);   // кто бы ни был этим рут, селфи-палку привязываем именно к нему
-	Camera->SetupAttachment(SpringArm); // а камеру - к селфи-палке
-}
+	SpringArm->SetupAttachment(Root);  
+	Camera->SetupAttachment(SpringArm);}
 
 void AMainPaperCharacter::BeginPlay()
 {

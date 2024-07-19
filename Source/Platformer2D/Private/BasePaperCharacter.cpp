@@ -14,22 +14,10 @@ void ABasePaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!bIsDead) {
-		UpdateAnimation(); // Анимация обновляется каждый тик
+	if (!bIsDead && bCanChangeAnimation) { // если персонаж не мертв и можно менять анимацию
+		UpdateMovementAnimation();		   // то анимация обновится в соответствии с движениями
 	}
 }
-
-//void ABasePaperCharacter::MoveForward(float Value)
-//{
-//	AddMovementInput({1.0, 0.0, 0.0 }, Value);					  // Передвижение по X и умножение на значение Value (-1.0 или 1.0)
-//
-//	FRotator Rotator{ 0.0, 0.0, 0.0 };
-//	if (Value < 0.0) {
-//		Rotator = Rotator.Add(0.0, 0.0, 180.0);
-//	}
-//	
-//	GetController()->SetControlRotation(Rotator); 
-//}
 
 EMovementStatus ABasePaperCharacter::GetMovementStatus()
 {
@@ -49,7 +37,104 @@ EMovementStatus ABasePaperCharacter::GetMovementStatus()
 	}
 }
 
-void ABasePaperCharacter::ChangeHP(float Points)
+void ABasePaperCharacter::UpdateMovementAnimation()
+{
+	auto status = GetMovementStatus();
+
+	switch (status) {
+	case(EMovementStatus::VE_IDLE): {
+		PlayFlipbook(Idle, false);
+		break;
+	}
+	case(EMovementStatus::VE_RUN): {
+		PlayFlipbook(Run, false);
+		break;
+	}
+	case(EMovementStatus::VE_JUMP): {
+		PlayFlipbook(Up, false);
+		break;
+	}
+	case(EMovementStatus::VE_FALL): {
+		PlayFlipbook(Fall, false);
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+void ABasePaperCharacter::PlayFlipbook(UPaperFlipbook* Flipbook, bool PlayOneTime)
+{
+	auto sprite = GetSprite();
+	
+	if (Flipbook != nullptr) {
+		sprite->SetFlipbook(Flipbook);
+
+		if (PlayOneTime) {				   // если нужно проиграть один раз
+			bCanChangeAnimation = false;   // запрещаем смену анимации 
+
+			GetWorld()->GetTimerManager().SetTimer(FlipbookPlayHandle, this, 
+				&ABasePaperCharacter::PlayFlipbookFinished, Flipbook->GetTotalDuration(), false); // ждем проигрывания анимации, после чего вызываем PlayFlipbookFinished()
+		}
+	}
+}
+
+void ABasePaperCharacter::PlayFlipbookFinished()
+{
+	bCanChangeAnimation = true;
+}
+
+void ABasePaperCharacter::Damage(float Damage)
+{
+	if (Damage > 0.0) { 
+		Damage *= -1;
+	}
+
+	changeHP(Damage);
+
+	if (HP <= 0.0) {
+		PlayFlipbook(DeadHit, true); // проигрываем анимацию смертельного удара
+		
+		Dead();						 // действия после смерти
+	}
+	else {
+		PlayFlipbook(Hit, true);     // проигрываем анимацию удара
+	}
+}
+
+void ABasePaperCharacter::Heal(float Heal_)
+{
+	if (Heal_ < 0.0) {
+		Heal_ *= -1;
+	}
+
+	changeHP(Heal_);
+}
+
+void ABasePaperCharacter::Dead_Implementation()
+{
+	bIsDead = true;
+
+	if (bCanChangeAnimation) { // если можно сменить анимацию
+		PlayDeathAnimation();  // меняем
+	}
+	else {
+		GetWorld()->GetTimerManager().SetTimer(FlipbookPlayHandle, this,
+			&ABasePaperCharacter::PlayDeathAnimation, DeadHit->GetTotalDuration(), false); // ждем проигрывания анимаций, чтобы включить death
+	}
+}
+
+void ABasePaperCharacter::PlayDeathAnimation()
+{
+	PlayFlipbook(Death, false);
+}
+
+bool ABasePaperCharacter::IsDead()
+{
+	return bIsDead;
+}
+
+void ABasePaperCharacter::changeHP(float Points)
 {
 	HP += Points;
 
@@ -58,19 +143,5 @@ void ABasePaperCharacter::ChangeHP(float Points)
 	}
 	else {
 		HP = (HP >= 0.0 ? HP : 0.0);    // если хп стало меньше минимума, то заменяем
-
-		if (HP <= 0.0) {
-			Dead();						// действия после смерти
-		}
 	}
-}
-
-void ABasePaperCharacter::Dead_Implementation()
-{
-	bIsDead = true;
-}
-
-bool ABasePaperCharacter::IsDead()
-{
-	return bIsDead;
 }

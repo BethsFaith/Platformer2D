@@ -7,7 +7,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/DamageEvents.h"
 #include "GameFramework/Actor.h"
-#include "Math/Rotator.h"
+#include "PaperFlipbook.h"
+#include "PaperFlipbookComponent.h"
 
 #include "BasePaperCharacter.generated.h"
 
@@ -39,30 +40,40 @@ public:
 	UFUNCTION(BlueprintCallable)
 	EMovementStatus GetMovementStatus();
 
-	//// Ивент вызываемый при получение урона
-	//UFUNCTION(BlueprintImplementableEvent)
-	//void WasDamaged();
+	// Лечение
+	UFUNCTION(BlueprintCallable)
+	void Heal(float Heal_);
 
 	// Ивент вызываемый при смерти
 	UFUNCTION(BlueprintNativeEvent)
 	void Dead();
 	virtual void Dead_Implementation();
 
+	UFUNCTION()
+	void PlayDeathAnimation();
+
 	UFUNCTION(BlueprintCallable)
 	bool IsDead();
 
 protected:
-	// Функция для смены анимации (реализуется в бп)
-	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateAnimation();
-
-	//// Функция для движения 
-	//UFUNCTION(BlueprintCallable)
-	//void MoveForward(float Value);
-
-	// Функция для изменения хп
+	// Функция для смены анимации
 	UFUNCTION(BlueprintCallable)
-	void ChangeHP(float Points);
+	virtual void UpdateMovementAnimation();
+
+	FTimerHandle FlipbookPlayHandle;
+
+	// Функция для смены анимации
+	UFUNCTION(BlueprintCallable)
+	void PlayFlipbook(UPaperFlipbook* Flipbook, bool PlayOneTime);
+
+	UFUNCTION()
+	void PlayFlipbookFinished();
+
+	// Получение урона
+	UFUNCTION(BlueprintCallable)
+	void Damage(float Damage_);
+
+	/* Свойства */
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats")
 	float HP;
@@ -71,8 +82,33 @@ protected:
 	float MaxHP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
-	float Damage;
+	float DamageStrength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+	UPaperFlipbook* Idle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+	UPaperFlipbook* Run;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+	UPaperFlipbook* Up;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+	UPaperFlipbook* Fall;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+	UPaperFlipbook* Hit;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+	UPaperFlipbook* DeadHit;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+	UPaperFlipbook* Death;
 
 private:
+	// Функция для изменения хп
+	void changeHP(float Points);
+
 	bool bIsDead = false;
+	bool bCanChangeAnimation = true;
 };
