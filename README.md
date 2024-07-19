@@ -10,7 +10,8 @@ Developed with Unreal Engine 5.4.1
 
 Ассеты, используемые в этом проекте, находятся по ссылке: https://pixelfrog-assets.itch.io/treasure-hunters
 
-.exe файл лежит на диске: https://drive.google.com/file/d/1niVBgnHSVIBXVZmMmOaT2UFTN7q4enRP/view?usp=drive_link
+.exe файл (debug сборка) лежит на диске: https://drive.google.com/file/d/1niVBgnHSVIBXVZmMmOaT2UFTN7q4enRP/view?usp=drive_link
+Запуск: Binaries/Win64/Platformer2.exe
 
 Код в блюпринтах и на с++ содержит комментарии на русском языке. (Если комментарии на с++ отображаются некорректно, убедитесь что включена кодировка Windows1251).
 
